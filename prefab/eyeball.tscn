@@ -51,7 +51,7 @@ position = Vector2( 6, -12 )
 scale = Vector2( 0.9, 0.9 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 1
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -65,9 +65,10 @@ z_index = 2
 texture = ExtResource( 10 )
 
 [node name="HealthText" type="Label" parent="."]
-margin_top = -82.0
-margin_right = 27.0
-margin_bottom = -28.0
+margin_left = -2.0
+margin_top = -75.0
+margin_right = 35.0
+margin_bottom = -21.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 9 )
-text = "10"
+text = "20"

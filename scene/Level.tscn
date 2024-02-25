@@ -55,5 +55,14 @@ collision_mask = 0
 shape = SubResource( 1 )
 
 [node name="CardManager" parent="." instance=ExtResource( 9 )]
+position = Vector2( 0, 350 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 406.0
+margin_top = -230.0
+margin_right = 469.0
+margin_bottom = -210.0
+text = "get card"
 
 [connection signal="pressed" from="AttackButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="Button" to="CardManager" method="_on_Button_pressed"]

@@ -3,7 +3,7 @@ extends "res://script/entity.gd"
 # dipanggil oleh cardItem
 signal get_card
 
-export var beam: PackedScene
+var beam: PackedScene = preload("res://prefab/Beam.tscn")
 
 
 func get_movement():
@@ -64,12 +64,16 @@ func beam_attack(angle):
 	b.rotation = angle
 	b.position = position
 	
-	# damage enemies
-	var enemies = b.get_overlapping_bodies()
-	for enemy in enemies:
-		enemy.damage(2)
+	
 	
 	
 	yield($AnimatedSprite, 'animation_finished')
 	$AnimatedSprite.play("idle")
+	
+	# damage enemies
+	var enemies = b.get_overlapping_bodies()
+	print(enemies)
+	for enemy in enemies:
+		enemy.damage(2)
+		
 	yield(get_tree().create_timer(1.0), "timeout")

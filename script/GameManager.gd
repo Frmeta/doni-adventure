@@ -25,6 +25,9 @@ var board = []
 var clickablePos = []
 var enemies = []
 
+
+var is_card_usable = false
+
 func _ready():
 	# Setup reference
 	$CardManager.gm = self
@@ -88,6 +91,7 @@ func _ready():
 		clickablePos = player.get_movement()
 		if clickablePos.size() > 0:
 			clickPos = yield(self, "kotak_clicked_signal")
+		clickablePos = []
 			
 
 		# move slowly
@@ -98,10 +102,11 @@ func _ready():
 		
 		# Player pick card
 		atkButton.disabled = false
-		clickablePos = []
+		is_card_usable = true
 		get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
 		yield(self, "attack_clicked_signal")
 		atkButton.disabled = true
+		is_card_usable = false
 		
 		# Player attack line
 		playerAtkLine.visible = true
