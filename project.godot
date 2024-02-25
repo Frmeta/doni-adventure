@@ -10,11 +10,17 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
+"class": "CardManager",
+"language": "GDScript",
+"path": "res://scene/cardManager.gd"
+}, {
+"base": "Node2D",
 "class": "Kotak",
 "language": "GDScript",
 "path": "res://script/kotak.gd"
 } ]
 _global_script_class_icons={
+"CardManager": "",
 "Kotak": ""
 }
 
@@ -27,11 +33,24 @@ config/icon="res://sprite/icon.png"
 [display]
 
 window/size/height=800
-window/size/resizable=false
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+lmb={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_render/layer_2="Enemy"
+2d_render/layer_3="GameArea"
+2d_render/layer_4="Player"
 
 [physics]
 

@@ -1,0 +1,74 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://sprite/goblinIdle/goblinIdle0000.png" type="Texture" id=1]
+[ext_resource path="res://script/melee.gd" type="Script" id=2]
+[ext_resource path="res://sprite/goblinIdle/goblinIdle0001.png" type="Texture" id=3]
+[ext_resource path="res://sprite/goblinIdle/goblinIdle0002.png" type="Texture" id=4]
+[ext_resource path="res://sprite/goblinIdle/goblinIdle0003.png" type="Texture" id=5]
+[ext_resource path="res://sprite/goblinIdle/goblinIdle0004.png" type="Texture" id=6]
+[ext_resource path="res://sprite/goblinHurt/goblinHurt0001.png" type="Texture" id=7]
+[ext_resource path="res://sprite/goblinHurt/goblinHurt0000.png" type="Texture" id=8]
+[ext_resource path="res://font/S_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprite/small_heart.png" type="Texture" id=10]
+[ext_resource path="res://sprite/goblinHurt/goblinHurt0002.png" type="Texture" id=11]
+[ext_resource path="res://sprite/goblinHurt/goblinHurt0003.png" type="Texture" id=12]
+[ext_resource path="res://sprite/goblinHurt/goblinHurt0004.png" type="Texture" id=13]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0005.png" type="Texture" id=14]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0002.png" type="Texture" id=15]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0000.png" type="Texture" id=16]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0001.png" type="Texture" id=17]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0003.png" type="Texture" id=18]
+[ext_resource path="res://sprite/goblinAtk/goblinAtk0004.png" type="Texture" id=19]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 14 ) ],
+"loop": false,
+"name": "atk",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 27.81
+
+[node name="Goblin" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+max_health = 8
+atk_damage = 3
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 6, -12 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 2 )
+animation = "idle"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -6 )
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -11, -62 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 2
+texture = ExtResource( 10 )
+
+[node name="HealthText" type="Label" parent="."]
+margin_top = -82.0
+margin_right = 27.0
+margin_bottom = -28.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "10"

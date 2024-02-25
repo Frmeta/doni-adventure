@@ -1,0 +1,103 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://sprite/archerHurt/archerHurt0003.png" type="Texture" id=1]
+[ext_resource path="res://script/ranged.gd" type="Script" id=2]
+[ext_resource path="res://sprite/archerHurt/archerHurt0004.png" type="Texture" id=3]
+[ext_resource path="res://sprite/archerHurt/archerHurt0001.png" type="Texture" id=4]
+[ext_resource path="res://sprite/archerHurt/archerHurt0002.png" type="Texture" id=5]
+[ext_resource path="res://sprite/archerAtk/archerAtk0004.png" type="Texture" id=6]
+[ext_resource path="res://sprite/archerAtk/archerAtk0005.png" type="Texture" id=7]
+[ext_resource path="res://sprite/archerHurt/archerHurt0000.png" type="Texture" id=8]
+[ext_resource path="res://font/S_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprite/small_heart.png" type="Texture" id=10]
+[ext_resource path="res://sprite/archerAtk/archerAtk0001.png" type="Texture" id=11]
+[ext_resource path="res://sprite/archerAtk/archerAtk0002.png" type="Texture" id=12]
+[ext_resource path="res://sprite/archerAtk/archerAtk0000.png" type="Texture" id=13]
+[ext_resource path="res://sprite/archerIdle/archerIdle0003.png" type="Texture" id=14]
+[ext_resource path="res://sprite/archerIdle/archerIdle0007.png" type="Texture" id=15]
+[ext_resource path="res://sprite/archerIdle/archerIdle0006.png" type="Texture" id=16]
+[ext_resource path="res://sprite/archerIdle/archerIdle0000.png" type="Texture" id=17]
+[ext_resource path="res://sprite/archerIdle/archerIdle0004.png" type="Texture" id=18]
+[ext_resource path="res://sprite/archerIdle/archerIdle0005.png" type="Texture" id=19]
+[ext_resource path="res://sprite/archerHurt/archerHurt0005.png" type="Texture" id=20]
+[ext_resource path="res://sprite/archerIdle/archerIdle0001.png" type="Texture" id=21]
+[ext_resource path="res://sprite/archerIdle/archerIdle0002.png" type="Texture" id=22]
+[ext_resource path="res://sprite/clock.png" type="Texture" id=23]
+[ext_resource path="res://prefab/arrow.tscn" type="PackedScene" id=24]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"loop": false,
+"name": "atk",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "atk2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 20 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 16 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 27.81
+
+[node name="Archer" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+bullet = ExtResource( 24 )
+move_step = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 4, -16 )
+scale = Vector2( 0.9, 0.9 )
+frames = SubResource( 2 )
+animation = "idle"
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -6 )
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -26, -58 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 1
+texture = ExtResource( 10 )
+
+[node name="HealthText" type="Label" parent="."]
+margin_left = -25.0
+margin_top = -74.0
+margin_right = 9.0
+margin_bottom = 1.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "8
+"
+align = 1
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 13, -57 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 1
+texture = ExtResource( 23 )
+
+[node name="TimerText" type="Label" parent="."]
+margin_left = 13.0
+margin_top = -74.0
+margin_right = 47.0
+margin_bottom = -20.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "3"
+align = 1

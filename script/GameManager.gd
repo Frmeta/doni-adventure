@@ -1,11 +1,17 @@
 extends Node2D
 
+var spawnParticlePrefab := preload("res://prefab/SpawnParticle.tscn")
+
 var kotakPrefab := preload("res://prefab/kotak.tscn")
 var playerPrefab := preload("res://prefab/player.tscn")
 var eyeballPrefab := preload("res://prefab/eyeball.tscn")
+var goblinPrefab := preload("res://prefab/goblin.tscn")
+var archerPrefab := preload("res://prefab/archer.tscn")
+var cardItemPrefab := preload("res://prefab/cardItem.tscn")
 
 onready var atkButton = $AttackButton
-onready var healthBar = $HealthText/Text
+onready var healthText = $HealthText
+onready var playerAtkLine = $PlayerAtkLine
 
 var spacing = 80
 
@@ -20,11 +26,13 @@ var clickablePos = []
 var enemies = []
 
 func _ready():
+	# Setup reference
+	$CardManager.gm = self
 	
 	# Init 2d array
 	for i in range(5):
 		board.append([])
-		for j in range(11):
+		for _j in range(11):
 			board[i].append(null)
 	
 	
@@ -43,17 +51,32 @@ func _ready():
 	
 	# Spawn player
 	player = spawn_entity(playerPrefab, Vector2(2, 2))
+	player.connect("get_card", $CardManager, "get_card")
 	
 	# init healthText
-	player.healthText = healthBar
+	player.healthText = healthText
+	healthText.text = str(player.max_health)
 	
 	
-	# Spawn eyeball
-	for i in 3:
-		var eyeball = spawn_entity(eyeballPrefab, Vector2(i+1, 9))
-		enemies.append(eyeball)
+	# Spawn enemy
+	var eyeball = spawn_entity(eyeballPrefab, Vector2(1, 9))
+	enemies.append(eyeball)
+	
+	eyeball = spawn_entity(archerPrefab, Vector2(3, 9))
+	enemies.append(eyeball)
+	
+	# Spawn card
+	for i in range(5):
+		while (true):
+			var a = randi() % 5 
+			var b = randi() % 11
+			if board[a][b] == null:
+				spawn_entity(cardItemPrefab, Vector2(a, b))
+				break
 	
 	
+	
+	atkButton.disabled = true
 	
 	# Game loop
 	while true:
@@ -61,27 +84,35 @@ func _ready():
 		# Wait for player move
 		board[player.pos.x][player.pos.y] = null
 		
-		var clickPos
-		atkButton.disabled = true
+		var clickPos = player.pos
 		clickablePos = player.get_movement()
-		while true:
+		if clickablePos.size() > 0:
 			clickPos = yield(self, "kotak_clicked_signal")
-			# print(clickPos)
-			if clickPos != player.pos:
-				break
+			
 
 		# move slowly
-		# set_player_pos(tmp)
 		player.set_pos(clickPos)
 		board[clickPos.x][clickPos.y] = player
 		yield(player, "onTarget")
 
-
-		# Wait for player attack
+		
+		# Player pick card
 		atkButton.disabled = false
 		clickablePos = []
 		get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
 		yield(self, "attack_clicked_signal")
+		atkButton.disabled = true
+		
+		# Player attack line
+		playerAtkLine.visible = true
+		var angle = yield(playerAtkLine, "click")
+		
+		# Player attack animation
+		playerAtkLine.visible = false
+		yield(player.attack_enemy(angle), "completed")
+		
+		
+		
 		
 		# Enemies move
 		for enemy in enemies:
@@ -93,13 +124,40 @@ func _ready():
 			
 			yield(enemy.attack_player(), "completed")
 		
+		
+		# Losing
+		if not is_instance_valid(player) or player.health <= 0:
+			break
+			
+	print("Player lose")
+
+func entity_died(obj):
+	if obj == player:
+		pass
+	else:
+		var idx = enemies.find(obj)
+		enemies.remove(idx)
+		
+	for i in range(5):
+		for j in range(11):
+			if board[i][j] == obj:
+				board[i][j] = null
 
 func spawn_entity(prefab, pos):
+	
+	# spawn particle
+	var p = instantiate(spawnParticlePrefab)
+	p.position = pos_to_position(pos)
+	p.get_node("AnimationPlayer").play("spawn")
+	
+	# spawn object
 	var obj = instantiate(prefab)
-	obj.gm = self
 	obj.position = pos_to_position(pos)
-	obj.set_pos(pos)
+	if obj.has_method("set_pos"):
+		obj.gm = self
+		obj.set_pos(pos)
 	board[pos.x][pos.y] = obj
+	
 	return obj
 	
 
@@ -118,10 +176,10 @@ func instantiate(prefab):
 func pos_to_position(pos):
 	return (Vector2(pos.y-5, pos.x-2)) * spacing
 
-func filter(list_of_pos):
+func filter(list_of_pos, isPlayer):
 	var ans = []
 	for o in list_of_pos:
 		if o.x >= 0 and o.y >= 0 and o.x <= 4 and o.y <= 10:
-			if board[o.x][o.y] == null:
+			if board[o.x][o.y] == null or (isPlayer and board[o.x][o.y].is_in_group("cardItem")):
 				ans.append(o)
 	return ans

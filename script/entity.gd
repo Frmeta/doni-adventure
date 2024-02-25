@@ -2,9 +2,12 @@ extends KinematicBody2D
 
 export var max_health := 5
 export var atk_damage := 2
-export var move_step := 2 # enemy only
 
-onready var healthText = get_node("HealthText/Text")
+export var bullet : PackedScene
+
+onready var deathParticle = preload("res://prefab/deathParticle.tscn")
+
+var healthText
 
 var gm
 var pos
@@ -22,34 +25,39 @@ func _physics_process(delta):
 	position = position.move_toward(target, speed * delta)
 	if position == target:
 		emit_signal("onTarget")
-	
+		
+		if is_instance_valid(gm.player):
+			if gm.player == self:
+				$AnimatedSprite.flip_h = false
+			elif pos.y > gm.player.pos.y:
+				$AnimatedSprite.flip_h = false
+			elif pos.y < gm.player.pos.y:
+				$AnimatedSprite.flip_h = true
+			
 func set_pos(p):
 	pos = p
 
-func get_movement():
-	var output := []
-	
-	output.append(pos + Vector2.UP)
-	output.append(pos + Vector2.RIGHT)
-	output.append(pos + Vector2.LEFT)
-	output.append(pos + Vector2.DOWN)
-	
-	output = gm.filter(output)
-			
-	for i in range(output.size()):
-		output.append(output[i] + Vector2.UP)
-		output.append(output[i] + Vector2.RIGHT)
-		output.append(output[i] + Vector2.LEFT)
-		output.append(output[i] + Vector2.DOWN)
-	
-	output = gm.filter(output)
-	
-	return output
 
 func damage(amount):
-	# hurt animation
+	
+	# change health
 	health -= amount
-	print("player hurt " + str(amount))
 	healthText.text = str(health)
 	
-
+	# hurt animation
+	$AnimatedSprite.play("hurt")
+	yield($AnimatedSprite, "animation_finished")
+	
+	# death
+	if health <= 0:
+		# spawn particle
+		var p = deathParticle.instance()
+		gm.add_child(p)
+		p.emitting = true
+		p.position = position
+		
+		
+		gm.entity_died(self)
+		self.queue_free()
+	else:
+		$AnimatedSprite.play("idle")
