@@ -11,8 +11,10 @@ func _ready():
 
 # enemy only
 func attack_player():
-	timer -= 1
-	if timer < 0:
+	if not is_instance_valid(gm.player):
+		return
+		
+	if timer == 0:
 	
 		$AnimatedSprite.play("atk")
 		
@@ -37,6 +39,8 @@ func attack_player():
 		# yield (gm.player.damage(atk_damage), "completed")
 		
 		timer = max_timer
+	else:
+		timer -= 1
 	
 	timerText.text = str(timer)
 	

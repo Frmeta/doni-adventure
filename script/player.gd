@@ -4,6 +4,7 @@ extends "res://script/entity.gd"
 signal get_card
 
 var beam: PackedScene = preload("res://prefab/Beam.tscn")
+var isShield = false
 
 
 func get_movement():
@@ -52,7 +53,7 @@ func attack_enemy(angle):
 		
 	yield(get_tree().create_timer(1.0), "timeout")
 
-func beam_attack(angle):
+func tembus_attack(angle, isCosmic):
 	
 	# attack animation
 	$AnimatedSprite.play("atk")
@@ -64,16 +65,28 @@ func beam_attack(angle):
 	b.rotation = angle
 	b.position = position
 	
-	
-	
-	
 	yield($AnimatedSprite, 'animation_finished')
 	$AnimatedSprite.play("idle")
 	
 	# damage enemies
 	var enemies = b.get_overlapping_bodies()
-	print(enemies)
 	for enemy in enemies:
-		enemy.damage(2)
+		if isCosmic:
+			enemy.damage(5)
+		else:
+			enemy.damage(2)
 		
 	yield(get_tree().create_timer(1.0), "timeout")
+	
+func damage(amount):
+	if isShield:
+		off_shield()
+	else:
+		.damage(amount)
+
+func get_shield():
+	isShield = true
+
+func off_shield():
+	isShield = false
+	# TODO: animation

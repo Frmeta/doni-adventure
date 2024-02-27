@@ -115,7 +115,7 @@ position = Vector2( 401.5, 0.5 )
 shape = SubResource( 5 )
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PoolVector2Array( 0, 0, 800, 0 )
+points = PoolVector2Array( 0, 0, 1000, 0 )
 width = 20.0
 default_color = Color( 1, 1, 1, 1 )
 
@@ -126,12 +126,12 @@ anims/RESET = SubResource( 2 )
 anims/spawn = SubResource( 3 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2( 400, 0 )
+position = Vector2( 480, 0 )
 amount = 100
 lifetime = 0.5
 texture = ExtResource( 1 )
 emission_shape = 2
-emission_rect_extents = Vector2( 400, 1 )
+emission_rect_extents = Vector2( 500, 1 )
 gravity = Vector2( 0, 0 )
 initial_velocity = 100.0
 scale_amount = 0.2

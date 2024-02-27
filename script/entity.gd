@@ -6,6 +6,7 @@ export var atk_damage := 2
 export var bullet : PackedScene
 
 onready var deathParticle = preload("res://prefab/deathParticle.tscn")
+onready var damageParticle = preload("res://prefab/DamageParticle.tscn")
 
 var healthText
 
@@ -28,7 +29,12 @@ func _physics_process(delta):
 		
 		if is_instance_valid(gm.player):
 			if gm.player == self:
-				$AnimatedSprite.flip_h = false
+				if gm.enemies.size() > 0 and pos.y > gm.enemies[0].pos.y:
+					$AnimatedSprite.flip_h = false
+				else:
+					$AnimatedSprite.flip_h = true
+					
+				
 			elif pos.y > gm.player.pos.y:
 				$AnimatedSprite.flip_h = false
 			elif pos.y < gm.player.pos.y:
@@ -43,6 +49,14 @@ func damage(amount):
 	# change health
 	health -= amount
 	healthText.text = str(health)
+	
+	# spawn damage particle
+	var d = gm.instantiate(damageParticle)
+	d.position = position
+	if $AnimatedSprite.flip_h:
+		d.get_node("Particle").rotation_degrees = 180
+	d.get_node("TextNode/Text").text = "-" + str(amount)
+	
 	
 	# hurt animation
 	$AnimatedSprite.play("hurt")

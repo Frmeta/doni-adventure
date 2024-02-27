@@ -6,7 +6,7 @@ onready var ray = $RayCast2D
 onready var line = $Line2D
 onready var end = $Position2D
 
-var length = 800
+var length = 1000
 var isTembus = false
 
 signal click
@@ -27,7 +27,7 @@ func _process(delta):
 	if ray.is_colliding() and not isTembus:
 		end.global_position = ray.get_collision_point()
 	else:
-		end.global_position = ray.cast_to
+		end.global_position = position + ray.cast_to
 	
 	# line.set_point_position(0, gm.pos_to_position(gm.player.pos))
 	line.set_point_position(1, end.position)

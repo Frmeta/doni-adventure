@@ -30,7 +30,7 @@ texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 5 )
 
-[node name="Heart" type="Sprite" parent="."]
+[node name="HeartSprite" type="Sprite" parent="."]
 position = Vector2( -442, -230 )
 texture = ExtResource( 7 )
 

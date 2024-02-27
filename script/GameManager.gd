@@ -62,7 +62,7 @@ func _ready():
 	
 	
 	# Spawn enemy
-	var eyeball = spawn_entity(eyeballPrefab, Vector2(1, 9))
+	var eyeball = spawn_entity(goblinPrefab, Vector2(1, 9))
 	enemies.append(eyeball)
 	
 	eyeball = spawn_entity(archerPrefab, Vector2(3, 9))
@@ -119,14 +119,22 @@ func _ready():
 		
 		
 		
-		# Enemies move
+		# Enemies' turn
 		for enemy in enemies:
+			
+			# Handle enemy stun
+			if enemy.isStun:
+				enemy.unstun()
+				continue
+			
+			# Enemy move
 			board[enemy.pos.x][enemy.pos.y] = null
 			var targetPos = enemy.get_movement()[0]
 			enemy.set_pos(targetPos)
 			board[enemy.pos.x][enemy.pos.y] = enemy
 			yield(enemy, "onTarget")
 			
+			# Enemy attack
 			yield(enemy.attack_player(), "completed")
 		
 		
@@ -185,6 +193,6 @@ func filter(list_of_pos, isPlayer):
 	var ans = []
 	for o in list_of_pos:
 		if o.x >= 0 and o.y >= 0 and o.x <= 4 and o.y <= 10:
-			if board[o.x][o.y] == null or (isPlayer and board[o.x][o.y].is_in_group("cardItem")):
+			if not is_instance_valid(board[o.x][o.y]) or (isPlayer and board[o.x][o.y].is_in_group("cardItem")):
 				ans.append(o)
 	return ans

@@ -67,7 +67,7 @@ func use_card(card):
 				var jarak = enemy.position.distance_to(player.position)
 				if jarak < best_score:
 					best_enemy = enemy
-			best_enemy.damage(5)
+			best_enemy.damage(3)
 					
 		CardType.BEAM:
 			gm.atkButton.disabled = true
@@ -79,17 +79,86 @@ func use_card(card):
 			gm.atkButton.disabled = false
 			gm.playerAtkLine.visible = false
 			
-			# Player attack animation
-			yield(player.beam_attack(angle), "completed")
+			# TODO: Player attack animation
+			yield(player.tembus_attack(angle, false), "completed")
+			
+		CardType.COSMIC:
+			gm.atkButton.disabled = true
+			gm.playerAtkLine.visible = true
+
+			yield (VisualServer, 'frame_pre_draw')
+			var angle = yield(gm.playerAtkLine, "click")
+			
+			gm.atkButton.disabled = false
+			gm.playerAtkLine.visible = false
+			
+			# TODO: Player attack animation
+			yield(player.tembus_attack(angle, true), "completed")
+			
 		
 			
 		CardType.DRAW_FOUR:
 			for i in range(4):
 				get_card()
+				
+		CardType.STUN:
+			
+			#  Wait for click on kotak
+			gm.atkButton.disabled = true
+			gm.clickablePos = get_every_enemy_pos()
+			var clickPos = yield(gm, "kotak_clicked_signal")
+			
+			
+			gm.clickablePos = []
+			gm.atkButton.disabled = false
+			
+			# OPTIONAL: Player attack animation
+			gm.board[clickPos.x][clickPos.y].stun()
+			
+			
+		CardType.MOVE:
+			pass
+			
+		CardType.SHIELD:
+			gm.player.get_shield()
+			
+		CardType.SHUFFLE:
+			var count = 0
+			for c in cards:
+				if c != card:
+					cards.erase(c)
+					count += 1
+					
+			for i in range(count):
+				get_card()
+				
+		CardType.METEOR:
+			pass
+			
+		CardType.TELEPORT:
+			pass
+			
+		CardType.EARTHQUAKE:
+			for enemy in gm.enemies:
+				enemy.damage(1)
+			
 
 	cards.erase(card)
 
 
 
 func _on_Button_pressed():
-	get_card_type(CardType.BEAM)
+	get_card()
+
+func get_every_movement():
+	var ans = []
+	for i in range(5):
+		for j in range(11):
+			ans.append(Vector2(i, j))
+	return ans
+
+func get_every_enemy_pos():
+	var ans = []
+	for enemy in gm.enemies:
+		ans.append(enemy.pos)
+	return ans

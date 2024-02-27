@@ -34,9 +34,12 @@ func _process(delta):
 		sprite.modulate = normalColor
 		
 	if hover and clickable:
-		scale = lerp(scale, Vector2.ONE * 1.2, delta * sizeSpeed)
+		$Sprite/Spiral.visible = true
+		# scale = lerp(scale, Vector2.ONE * 1.2, delta * sizeSpeed)
 	else:
-		scale = lerp(scale, Vector2.ONE, delta * sizeSpeed)
+		
+		$Sprite/Spiral.visible = false
+		# scale = lerp(scale, Vector2.ONE, delta * sizeSpeed)
 		
 
 
