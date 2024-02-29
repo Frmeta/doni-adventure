@@ -53,6 +53,8 @@ func get_card():
 	
 func use_card(card):
 	var player = gm.player
+	cards.erase(card)
+	
 	match card.cardType:
 		CardType.AXE:
 			print("axe")
@@ -113,7 +115,9 @@ func use_card(card):
 			gm.atkButton.disabled = false
 			
 			# OPTIONAL: Player attack animation
-			gm.board[clickPos.x][clickPos.y].stun()
+			var korban = gm.board[clickPos.x][clickPos.y]
+			if is_instance_valid(korban):
+				korban.stun()
 			
 			
 		CardType.MOVE:
@@ -123,16 +127,34 @@ func use_card(card):
 			gm.player.get_shield()
 			
 		CardType.SHUFFLE:
-			var count = 0
-			for c in cards:
-				if c != card:
-					cards.erase(c)
-					count += 1
-					
-			for i in range(count):
+			var c = cards.size()
+			cards = []
+			for i in range(c):
 				get_card()
 				
 		CardType.METEOR:
+			
+			#  Wait for click on kotak
+			gm.atkButton.disabled = true
+			gm.clickablePos = get_every_pos()
+			var clickPos = yield(gm, "kotak_clicked_signal")
+			
+			
+			gm.clickablePos = []
+			gm.atkButton.disabled = false
+			
+			# OPTIONAL: Player attack animation
+			
+			var poss = []
+			for i in range(-1, 2):
+				for j in range(-1, 2):
+					poss.append(clickPos + Vector2(i, j))
+			
+			poss = gm.filter_inside_board(poss)
+			var obj = gm.board[clickPos.x][clickPos.y]
+			if is_instance_valid(obj) and obj != gm.player:
+				gm.board[clickPos.x][clickPos.y].damage(2)
+			
 			pass
 			
 		CardType.TELEPORT:
@@ -143,14 +165,16 @@ func use_card(card):
 				enemy.damage(1)
 			
 
-	cards.erase(card)
-
+	yield(get_tree().create_timer(0.5), "timeout")
+	
+	if cards.size() == 0:
+		gm.emit_signal("attack_clicked_signal")
 
 
 func _on_Button_pressed():
 	get_card()
 
-func get_every_movement():
+func get_every_pos():
 	var ans = []
 	for i in range(5):
 		for j in range(11):

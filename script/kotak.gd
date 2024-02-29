@@ -1,6 +1,7 @@
 extends Node2D
 
 class_name Kotak
+
 enum HighlightType {PLAYER_MOVE, AXE, DISABLED}
 
 export var normalColor = Color.white

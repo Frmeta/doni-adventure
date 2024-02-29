@@ -3,15 +3,21 @@ extends Node2D
 var spawnParticlePrefab := preload("res://prefab/SpawnParticle.tscn")
 
 var kotakPrefab := preload("res://prefab/kotak.tscn")
+
 var playerPrefab := preload("res://prefab/player.tscn")
 var eyeballPrefab := preload("res://prefab/eyeball.tscn")
 var goblinPrefab := preload("res://prefab/goblin.tscn")
 var archerPrefab := preload("res://prefab/archer.tscn")
 var cardItemPrefab := preload("res://prefab/cardItem.tscn")
 
+var kotakDecorPrefab := preload("res://prefab/kotakDecor.tscn")
+var playerDecorPrefab := preload("res://prefab/playerDecor.tscn")
+
+
 onready var atkButton = $AttackButton
 onready var healthText = $HealthText
 onready var playerAtkLine = $PlayerAtkLine
+onready var heartIcon = $HeartIcon
 
 var spacing = 80
 
@@ -27,6 +33,9 @@ var enemies = []
 
 
 var is_card_usable = false
+
+
+var distance_to_next_level = 1100
 
 func _ready():
 	# Setup reference
@@ -50,6 +59,15 @@ func _ready():
 	var kotaks = get_tree().get_nodes_in_group("kotak")  
 	for kotak in kotaks:  
 		kotak.connect("clicked", self, "kotak_clicked")
+		
+		
+	# Setup kotak decor for next level
+	for i in range(5):
+		for j in range(11):
+			var instance = instantiate(kotakDecorPrefab)
+			instance.position = Vector2(j-5, i-2) * spacing + Vector2.RIGHT * distance_to_next_level
+			instance = instantiate(kotakDecorPrefab)
+			instance.position = Vector2(j-5, i-2) * spacing + Vector2.LEFT * distance_to_next_level
 	
 	
 	# Spawn player
@@ -62,7 +80,7 @@ func _ready():
 	
 	
 	# Spawn enemy
-	var eyeball = spawn_entity(goblinPrefab, Vector2(1, 9))
+	var eyeball = spawn_entity(eyeballPrefab, Vector2(1, 9))
 	enemies.append(eyeball)
 	
 	eyeball = spawn_entity(archerPrefab, Vector2(3, 9))
@@ -98,15 +116,16 @@ func _ready():
 		player.set_pos(clickPos)
 		board[clickPos.x][clickPos.y] = player
 		yield(player, "onTarget")
-
+		yield(get_tree().create_timer(0.1), "timeout")
 		
 		# Player pick card
-		atkButton.disabled = false
-		is_card_usable = true
-		get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
-		yield(self, "attack_clicked_signal")
-		atkButton.disabled = true
-		is_card_usable = false
+		if $CardManager.cards.size() > 0:
+			atkButton.disabled = false
+			is_card_usable = true
+			get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
+			yield(self, "attack_clicked_signal")
+			atkButton.disabled = true
+			is_card_usable = false
 		
 		# Player attack line
 		playerAtkLine.visible = true
@@ -145,16 +164,30 @@ func _ready():
 	print("Player lose")
 
 func entity_died(obj):
-	if obj == player:
-		pass
-	else:
-		var idx = enemies.find(obj)
-		enemies.remove(idx)
-		
+	# remove at board
 	for i in range(5):
 		for j in range(11):
 			if board[i][j] == obj:
 				board[i][j] = null
+	
+	
+	if obj == player:
+		# player death
+		pass
+	else:
+		# enemy death
+		var idx = enemies.find(obj)
+		enemies.remove(idx)
+		print("sisa enemy: " + str(enemies.size()))
+		# next level
+		if enemies.size() == 0:
+			print("next level")
+			var pd = playerDecorPrefab.instance()
+			add_child(pd)
+			pd.position = player.position
+			pass
+		
+	
 
 func spawn_entity(prefab, pos):
 	
@@ -191,8 +224,16 @@ func pos_to_position(pos):
 
 func filter(list_of_pos, isPlayer):
 	var ans = []
+	list_of_pos = filter_inside_board(list_of_pos)
 	for o in list_of_pos:
 		if o.x >= 0 and o.y >= 0 and o.x <= 4 and o.y <= 10:
 			if not is_instance_valid(board[o.x][o.y]) or (isPlayer and board[o.x][o.y].is_in_group("cardItem")):
 				ans.append(o)
+	return ans
+
+func filter_inside_board(list_of_pos):
+	var ans = []
+	for o in list_of_pos:
+		if o.x >= 0 and o.y >= 0 and o.x <= 4 and o.y <= 10:
+			ans.append(o)
 	return ans

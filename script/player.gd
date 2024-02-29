@@ -6,6 +6,7 @@ signal get_card
 var beam: PackedScene = preload("res://prefab/Beam.tscn")
 var isShield = false
 
+		
 
 func get_movement():
 	var output := []
@@ -30,8 +31,8 @@ func get_movement():
 	
 	return output
 
+
 func attack_enemy(angle):
-	
 	# attack animation
 	$AnimatedSprite.play("atk")
 	yield($AnimatedSprite, 'animation_finished')
@@ -79,14 +80,24 @@ func tembus_attack(angle, isCosmic):
 	yield(get_tree().create_timer(1.0), "timeout")
 	
 func damage(amount):
+	yield(VisualServer, 'frame_pre_draw')
 	if isShield:
 		off_shield()
 	else:
 		.damage(amount)
 
 func get_shield():
+	gm.heartIcon.play("shieldOn")
 	isShield = true
+	
 
 func off_shield():
+	gm.heartIcon.play("shieldOff")
 	isShield = false
-	# TODO: animation
+
+func _update_flip(angle):
+	if angle < PI/2 and angle > -PI/2:
+		$AnimatedSprite.flip_h = true
+	else:
+		$AnimatedSprite.flip_h = false
+		

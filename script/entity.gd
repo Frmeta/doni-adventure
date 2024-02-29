@@ -26,19 +26,8 @@ func _physics_process(delta):
 	position = position.move_toward(target, speed * delta)
 	if position == target:
 		emit_signal("onTarget")
-		
-		if is_instance_valid(gm.player):
-			if gm.player == self:
-				if gm.enemies.size() > 0 and pos.y > gm.enemies[0].pos.y:
-					$AnimatedSprite.flip_h = false
-				else:
-					$AnimatedSprite.flip_h = true
-					
 				
-			elif pos.y > gm.player.pos.y:
-				$AnimatedSprite.flip_h = false
-			elif pos.y < gm.player.pos.y:
-				$AnimatedSprite.flip_h = true
+			
 			
 func set_pos(p):
 	pos = p
