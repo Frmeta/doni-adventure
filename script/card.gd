@@ -8,7 +8,7 @@ var cm
 export var normalColor: Color
 export var disabledColor: Color
 
-func _process(delta):
+func _process(_delta):
 	if cm.gm.is_card_usable:
 		modulate = normalColor
 	else:

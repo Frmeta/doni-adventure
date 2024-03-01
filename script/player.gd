@@ -33,6 +33,8 @@ func get_movement():
 
 
 func attack_enemy(angle):
+	_update_flip(angle)
+	
 	# attack animation
 	$AnimatedSprite.play("atk")
 	yield($AnimatedSprite, 'animation_finished')
@@ -55,6 +57,7 @@ func attack_enemy(angle):
 	yield(get_tree().create_timer(1.0), "timeout")
 
 func tembus_attack(angle, isCosmic):
+	_update_flip(angle)
 	
 	# attack animation
 	$AnimatedSprite.play("atk")

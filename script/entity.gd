@@ -26,9 +26,7 @@ func _physics_process(delta):
 	position = position.move_toward(target, speed * delta)
 	if position == target:
 		emit_signal("onTarget")
-				
-			
-			
+		
 func set_pos(p):
 	pos = p
 

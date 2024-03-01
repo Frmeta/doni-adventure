@@ -20,3 +20,4 @@ script = ExtResource( 1 )
 cardTitles = PoolStringArray( "AXE", "SWORD", "BEAM", "COSMIC", "DRAW FOUR", "STUN", "MOVE", "SHIELD", "SHUFFLE", "METEOR", "TELEPORT", "EARTHQUAKE" )
 cardDesc = PoolStringArray( "attack nearby 3x3 area", "attack 1 enemy in 3x3 area", "deal damage in straight line", "deal massive damage in straight line", "collect 4 cards", "freeze enemy by 1 turn", "bonus move", "next time enemy attack, the shield is destroyed", "refresh your deck of cards", "attack any 3x3 area", "move to anywhere", "deal damage to all enemy" )
 cardTextures = [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 13 ) ]
+cheatCard = 9

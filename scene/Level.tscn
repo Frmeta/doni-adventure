@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://sprite/atkButton/atkNormal.png" type="Texture" id=1]
 [ext_resource path="res://sprite/atkButton/atkHover.png" type="Texture" id=2]
@@ -9,8 +9,9 @@
 [ext_resource path="res://prefab/HeartIcon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prefab/playerAtkLine.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefab/cardManager.tscn" type="PackedScene" id=9]
-[ext_resource path="res://prefab/playerDecor.tscn" type="PackedScene" id=10]
+[ext_resource path="res://sprite/shieldedHeart.png" type="Texture" id=10]
 [ext_resource path="res://sprite/game/bg.png" type="Texture" id=11]
+[ext_resource path="res://prefab/Cam.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 577, 442 )
@@ -18,9 +19,28 @@ extents = Vector2( 577, 442 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 0, 100 )
-current = true
+[node name="Cam" parent="." instance=ExtResource( 12 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HeartIcon" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+margin_left = 19.0
+margin_top = 19.0
+margin_right = 119.0
+margin_bottom = 119.0
+texture = ExtResource( 10 )
+
+[node name="HealthText" type="Label" parent="CanvasLayer"]
+margin_left = 113.0
+margin_top = 39.0
+margin_right = 258.0
+margin_bottom = 569.7
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "10"
 
 [node name="AttackButton" type="TextureButton" parent="."]
 margin_left = 433.0
@@ -31,17 +51,6 @@ texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 5 )
-
-[node name="HeartIcon" parent="." instance=ExtResource( 7 )]
-
-[node name="HealthText" type="Label" parent="."]
-margin_left = -555.0
-margin_top = -308.0
-margin_right = -410.0
-margin_bottom = -257.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 6 )
-text = "10"
 
 [node name="PlayerAtkLine" parent="." instance=ExtResource( 8 )]
 visible = false
@@ -56,30 +65,35 @@ shape = SubResource( 1 )
 
 [node name="CardManager" parent="." instance=ExtResource( 9 )]
 position = Vector2( 0, 350 )
+cheatCard = 5
 
-[node name="Button" type="Button" parent="."]
+[node name="CheatButton" type="Button" parent="."]
 margin_left = 406.0
 margin_top = -230.0
 margin_right = 469.0
 margin_bottom = -210.0
 text = "get card"
 
-[node name="PlayerDecor" parent="." instance=ExtResource( 10 )]
-visible = false
-
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.729412, 0.729412, 0.729412, 1 )
-position = Vector2( 565, 194 )
+modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
+position = Vector2( 550, 194 )
 scale = Vector2( 1.6, 1.6 )
 z_index = -10
 texture = ExtResource( 11 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-modulate = Color( 0.729412, 0.729412, 0.729412, 1 )
-position = Vector2( -536, 194 )
+modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
+position = Vector2( -550, 194 )
+scale = Vector2( 1.6, 1.6 )
+z_index = -10
+texture = ExtResource( 11 )
+
+[node name="Sprite3" type="Sprite" parent="."]
+modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
+position = Vector2( 1650, 194 )
 scale = Vector2( 1.6, 1.6 )
 z_index = -10
 texture = ExtResource( 11 )
 
 [connection signal="pressed" from="AttackButton" to="." method="_on_TextureButton_pressed"]
-[connection signal="pressed" from="Button" to="CardManager" method="_on_Button_pressed"]
+[connection signal="pressed" from="CheatButton" to="CardManager" method="_on_Button_pressed"]

@@ -6,7 +6,9 @@ export var move_step := 2 # enemy only
 var isStun = false
 
 func _physics_process(delta):
-	if pos.y > gm.player.pos.y:
+	if isStun:
+		$AnimatedSprite.playing = false
+	elif pos.y > gm.player.pos.y:
 		$AnimatedSprite.flip_h = false
 	elif pos.y < gm.player.pos.y:
 		$AnimatedSprite.flip_h = true
@@ -18,6 +20,8 @@ func _ready():
 
 func stun():
 	isStun = true
+	$AnimatedSprite.playing = false
 
 func unstun():
 	isStun = false
+	$AnimatedSprite.playing = true
