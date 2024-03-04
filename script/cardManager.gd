@@ -14,7 +14,7 @@ export var cardDesc: PoolStringArray = []
 export (Array, Texture) var cardTextures
 export (CardType) var cheatCard
 
-var jarak = 200
+var jarak = 180
 var moveSpeed = 0.5
 
 var cards = []
@@ -174,7 +174,7 @@ func use_card(card):
 		CardType.TELEPORT:
 			
 			#  Wait for click on walkable kotak
-			gm.clickablePos = get_every_inside_pos()
+			gm.clickablePos = get_every_pos()
 			gm.clickablePos = gm.filter(gm.clickablePos, true)
 			var clickPos = yield(gm, "kotak_clicked_signal")
 			gm.clickablePos = []

@@ -14,11 +14,13 @@ var kotakDecorPrefab := preload("res://prefab/kotakDecor.tscn")
 var playerDecorPrefab := preload("res://prefab/playerDecor.tscn")
 
 
-onready var atkButton = $AttackButton
+onready var atkButton = $CanvasLayer/AttackButton
 onready var healthText = $CanvasLayer/HealthText
 onready var playerAtkLine = $PlayerAtkLine
 onready var heartIcon = $CanvasLayer/HeartIcon
 onready var cam = $Cam
+onready var levelText = $CanvasLayer/LevelImg/LevelText
+onready var transition = $CanvasLayer/Transition
 
 var spacing = 80
 
@@ -47,6 +49,8 @@ func _ready():
 	
 
 func level_start():
+	
+	levelText.text = "LEVEL " + str(current_level)
 	
 	# Init 2d array
 	board = []
@@ -124,6 +128,8 @@ func level_start():
 	
 	# Game loop
 	while true:
+		
+		yield(transition.play(transition.TransitionStatus.PLAYER_TURN), "completed")
 
 		# Wait for player move
 		var clickPos = player.pos
@@ -159,12 +165,14 @@ func level_start():
 		playerAtkLine.visible = false
 		yield(player.attack_enemy(angle), "completed")
 		
-		
-		
 		if enemies.size() == 0:
 			break
 			
+			
+			
 		# Enemies' turn
+		yield(transition.play(transition.TransitionStatus.ENEMY_TURN), "completed")
+		
 		for enemy in enemies:
 			
 			# Handle enemy stun
@@ -184,6 +192,8 @@ func level_start():
 		if not is_instance_valid(player) or player.health <= 0:
 			print("Player lose")
 			
+	
+	yield(transition.play(transition.TransitionStatus.PLAYER_WIN), "completed")
 	
 	print("next level")
 	

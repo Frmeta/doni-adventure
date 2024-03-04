@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Kotak",
 "language": "GDScript",
 "path": "res://script/kotak.gd"
+}, {
+"base": "TextureRect",
+"class": "transition",
+"language": "GDScript",
+"path": "res://script/transition.gd"
 } ]
 _global_script_class_icons={
 "CardManager": "",
-"Kotak": ""
+"Kotak": "",
+"transition": ""
 }
 
 [application]

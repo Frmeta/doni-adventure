@@ -46,8 +46,9 @@ func damage(amount):
 	
 	
 	# hurt animation
-	$AnimatedSprite.play("hurt")
-	yield($AnimatedSprite, "animation_finished")
+	if (not "isStun" in self) or not self.isStun:
+		$AnimatedSprite.play("hurt")
+		yield($AnimatedSprite, "animation_finished")
 	
 	# death
 	if health <= 0:

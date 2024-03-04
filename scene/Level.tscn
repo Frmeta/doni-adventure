@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://sprite/atkButton/atkNormal.png" type="Texture" id=1]
 [ext_resource path="res://sprite/atkButton/atkHover.png" type="Texture" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://sprite/shieldedHeart.png" type="Texture" id=10]
 [ext_resource path="res://sprite/game/bg.png" type="Texture" id=11]
 [ext_resource path="res://prefab/Cam.tscn" type="PackedScene" id=12]
+[ext_resource path="res://sprite/game/levelPaper.png" type="Texture" id=13]
+[ext_resource path="res://font/S_font.tres" type="DynamicFont" id=14]
+[ext_resource path="res://prefab/transition.tscn" type="PackedScene" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 577, 442 )
@@ -23,15 +26,15 @@ script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HeartIcon" parent="CanvasLayer" instance=ExtResource( 7 )]
+[node name="HeartIco" type="TextureRect" parent="CanvasLayer"]
 visible = false
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 margin_left = 19.0
 margin_top = 19.0
 margin_right = 119.0
 margin_bottom = 119.0
 texture = ExtResource( 10 )
+
+[node name="Transition" parent="CanvasLayer" instance=ExtResource( 15 )]
 
 [node name="HealthText" type="Label" parent="CanvasLayer"]
 margin_left = 113.0
@@ -40,17 +43,51 @@ margin_right = 258.0
 margin_bottom = 569.7
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 6 )
-text = "10"
+text = "12345678900-"
 
-[node name="AttackButton" type="TextureButton" parent="."]
-margin_left = 433.0
-margin_top = 312.0
-margin_right = 583.0
-margin_bottom = 462.0
+[node name="AttackButton" type="TextureButton" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -243.0
+margin_top = -227.0
+margin_right = -93.0
+margin_bottom = -77.0
+rect_scale = Vector2( 1.2, 1.2 )
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="LevelImg" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.053
+margin_left = -252.0
+margin_top = -63.0
+margin_right = 248.0
+margin_bottom = 237.0
+mouse_filter = 2
+texture = ExtResource( 13 )
+
+[node name="LevelText" type="Label" parent="CanvasLayer/LevelImg"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -418.0
+margin_top = 127.0
+margin_right = 428.0
+margin_bottom = 207.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "LEVEL 1"
+align = 1
+
+[node name="HeartIcon" parent="CanvasLayer" instance=ExtResource( 7 )]
+position = Vector2( 68, 74 )
 
 [node name="PlayerAtkLine" parent="." instance=ExtResource( 8 )]
 visible = false
@@ -95,5 +132,5 @@ scale = Vector2( 1.6, 1.6 )
 z_index = -10
 texture = ExtResource( 11 )
 
-[connection signal="pressed" from="AttackButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/AttackButton" to="." method="_on_TextureButton_pressed"]
 [connection signal="pressed" from="CheatButton" to="CardManager" method="_on_Button_pressed"]

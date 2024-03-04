@@ -31,7 +31,7 @@ texture = ExtResource( 1 )
 [node name="Spiral" type="AnimatedSprite" parent="Sprite"]
 z_as_relative = false
 frames = SubResource( 2 )
-frame = 3
+frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]
