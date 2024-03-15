@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://sprite/eyeball idle/eyeball_Idle0002.png" type="Texture" id=1]
 [ext_resource path="res://script/melee.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://sprite/eyeballAtk/eyeballAtk0004.png" type="Texture" id=18]
 [ext_resource path="res://sprite/eyeballHurt/eyeballHurt0002.png" type="Texture" id=19]
 [ext_resource path="res://sprite/eyeballAtk/eyeballAtk0002.png" type="Texture" id=20]
+[ext_resource path="res://sprite/atk_icon.png" type="Texture" id=21]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -51,24 +52,41 @@ position = Vector2( 6, -12 )
 scale = Vector2( 0.9, 0.9 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 3
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -6 )
 shape = SubResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -11, -62 )
+[node name="Health Icon" type="Sprite" parent="."]
+position = Vector2( -36, -61 )
 scale = Vector2( 0.4, 0.4 )
 z_index = 2
 texture = ExtResource( 10 )
 
 [node name="HealthText" type="Label" parent="."]
-margin_left = -2.0
-margin_top = -75.0
-margin_right = 35.0
-margin_bottom = -21.0
+margin_left = -31.0
+margin_top = -74.0
+margin_right = 6.0
+margin_bottom = -20.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 9 )
 text = "20"
+align = 1
+
+[node name="Atk Icon" type="Sprite" parent="."]
+position = Vector2( 21, -60 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 1
+texture = ExtResource( 21 )
+
+[node name="AtkText" type="Label" parent="."]
+margin_left = 24.0
+margin_top = -74.0
+margin_right = 58.0
+margin_bottom = -20.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "3"
+align = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://script/cardManager.gd" type="Script" id=1]
 [ext_resource path="res://sprite/cards/card0000.png" type="Texture" id=2]
@@ -13,11 +13,12 @@
 [ext_resource path="res://sprite/cards/card0010.png" type="Texture" id=11]
 [ext_resource path="res://sprite/cards/card0009.png" type="Texture" id=12]
 [ext_resource path="res://sprite/cards/card0011.png" type="Texture" id=13]
+[ext_resource path="res://sprite/cards/card0012.png" type="Texture" id=14]
 
 [node name="CardManager" type="Node2D"]
 position = Vector2( 0, 370 )
 script = ExtResource( 1 )
-cardTitles = PoolStringArray( "AXE", "SWORD", "BEAM", "COSMIC", "DRAW FOUR", "STUN", "MOVE", "SHIELD", "SHUFFLE", "METEOR", "TELEPORT", "EARTHQUAKE" )
-cardDesc = PoolStringArray( "attack nearby 3x3 area", "attack 1 enemy in 3x3 area", "deal damage in straight line", "deal massive damage in straight line", "collect 4 cards", "freeze enemy by 1 turn", "bonus move", "next time enemy attack, the shield is destroyed", "refresh your deck of cards", "attack any 3x3 area", "move to anywhere", "deal damage to all enemy" )
-cardTextures = [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 13 ) ]
-cheatCard = 9
+cardTitles = PoolStringArray( "AXE", "SWORD", "BEAM", "COSMIC", "DRAW THREE", "STUN", "HEALTHY", "SHIELD", "SHUFFLE", "METEOR", "TELEPORT", "EARTHQUAKE", "ASCEND" )
+cardDesc = PoolStringArray( "attack nearby 3x3 area", "attack nearest enemy", "deal damage in straight line", "deal massive damage in straight line", "collect 3 cards", "freeze enemy by 1 turn", "gain 5 health", "next time enemy attack, the shield is destroyed", "refresh your deck of cards", "attack any 3x3 area", "move to anywhere on the board", "deal damage to all enemy", "increase max health by 2" )
+cardTextures = [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 13 ), ExtResource( 14 ) ]
+cheatCard = 6

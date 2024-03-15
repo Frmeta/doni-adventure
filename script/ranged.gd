@@ -3,10 +3,12 @@ extends "res://script/enemy.gd"
 # ranged
 onready var timerText = $TimerText
 export var max_timer = 2 # berarti 3 turns diam
-var timer = max_timer
+var timer
 
 # set timer
 func _ready():
+	randomize()
+	timer = randi() % (max_timer+1)
 	timerText.text = str(timer)
 
 # enemy only
@@ -34,7 +36,7 @@ func attack_player():
 		if is_instance_valid(b):
 			yield(b, "hit")
 		
-		yield(get_tree().create_timer(1.0), "timeout")
+		yield(get_tree().create_timer(1), "timeout")
 		
 		# yield (gm.player.damage(atk_damage), "completed")
 		
@@ -43,7 +45,6 @@ func attack_player():
 		timer -= 1
 	
 	timerText.text = str(timer)
-	
 	
 	yield(VisualServer, 'frame_pre_draw')
 

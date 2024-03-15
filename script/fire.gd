@@ -11,7 +11,7 @@ func _physics_process(delta):
 	position = position + Vector2.RIGHT.rotated(rotation) * speed * delta
 
 
-func _on_Fire_area_shape_exited(area_rid, area, area_shape_index, local_shape_index):
+func _on_Fire_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
 	if area.name == "GameArea":
 		emit_signal("hit")
 		self.queue_free()

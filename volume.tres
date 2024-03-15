@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "class_name VolumeSet
+
+export var sound_name: String
+export var volume_multiplier: float
+"
+
+[resource]
+script = SubResource( 1 )
+sound_name = ""
+volume_multiplier = 0.0

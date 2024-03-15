@@ -5,14 +5,15 @@
 [ext_resource path="res://font/XS_font.tres" type="DynamicFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 88, 126 )
+extents = Vector2( 88, 165 )
 
 [node name="Card" type="Area2D"]
 script = ExtResource( 2 )
-normalColor = Color( 0.878431, 0.878431, 0.878431, 1 )
+normalColor = Color( 1, 1, 1, 1 )
 disabledColor = Color( 0.305882, 0.305882, 0.305882, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 39 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

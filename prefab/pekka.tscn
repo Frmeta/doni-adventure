@@ -1,0 +1,91 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0003.png" type="Texture" id=1]
+[ext_resource path="res://script/melee.gd" type="Script" id=2]
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0004.png" type="Texture" id=3]
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0005.png" type="Texture" id=4]
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0000.png" type="Texture" id=5]
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0002.png" type="Texture" id=6]
+[ext_resource path="res://sprite/pekkaAtk/pekkaHurt.png" type="Texture" id=7]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0001.png" type="Texture" id=8]
+[ext_resource path="res://font/S_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprite/small_heart.png" type="Texture" id=10]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0004.png" type="Texture" id=11]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0006.png" type="Texture" id=12]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0005.png" type="Texture" id=13]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0003.png" type="Texture" id=14]
+[ext_resource path="res://sprite/pekkaAtk/pekkaAtk0002.png" type="Texture" id=15]
+[ext_resource path="res://sprite/atk_icon.png" type="Texture" id=20]
+[ext_resource path="res://sprite/pekkaAtk/pekkaIdle0001.png" type="Texture" id=21]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 13 ), ExtResource( 12 ) ],
+"loop": false,
+"name": "atk",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 21 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 27.81
+
+[node name="PEKKA" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+max_health = 15
+atk_damage = 5
+move_step = 3
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 6, -12 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 4 )
+animation = "idle"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -6 )
+shape = SubResource( 3 )
+
+[node name="Health Icon" type="Sprite" parent="."]
+position = Vector2( -33, -61 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 2
+texture = ExtResource( 10 )
+
+[node name="Atk Icon" type="Sprite" parent="."]
+position = Vector2( 18, -63 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 1
+texture = ExtResource( 20 )
+
+[node name="HealthText" type="Label" parent="."]
+margin_left = -26.0
+margin_top = -78.0
+margin_right = 8.0
+margin_bottom = -24.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "10"
+align = 1
+
+[node name="AtkText" type="Label" parent="."]
+margin_left = 22.0
+margin_top = -77.0
+margin_right = 56.0
+margin_bottom = -23.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "3"
+align = 1

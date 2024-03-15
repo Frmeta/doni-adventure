@@ -1,0 +1,87 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://script/egg.gd" type="Script" id=1]
+[ext_resource path="res://sprite/egg/egg0006.png" type="Texture" id=2]
+[ext_resource path="res://sprite/egg/egg0003.png" type="Texture" id=3]
+[ext_resource path="res://sprite/egg/egg0000.png" type="Texture" id=4]
+[ext_resource path="res://sprite/egg/egg0005.png" type="Texture" id=5]
+[ext_resource path="res://sprite/egg/egg0002.png" type="Texture" id=6]
+[ext_resource path="res://sprite/egg/egg0001.png" type="Texture" id=7]
+[ext_resource path="res://sprite/egg/egg0004.png" type="Texture" id=8]
+[ext_resource path="res://font/S_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprite/small_heart.png" type="Texture" id=10]
+[ext_resource path="res://sprite/clock.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 8 ), ExtResource( 5 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "break",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 34.0
+
+[node name="Egg" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 1 )
+max_health = 1
+atk_damage = 0
+move_step = 0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -1, -4 )
+frames = SubResource( 4 )
+animation = "idle"
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -20, -50 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 2
+texture = ExtResource( 10 )
+
+[node name="HealthText" type="Label" parent="."]
+margin_left = -11.0
+margin_top = -69.0
+margin_right = 23.0
+margin_bottom = 6.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "1
+"
+
+[node name="Time Icon" type="Sprite" parent="."]
+position = Vector2( 12, -51 )
+scale = Vector2( 0.4, 0.4 )
+z_index = 1
+texture = ExtResource( 11 )
+
+[node name="TimerText" type="Label" parent="."]
+margin_left = 12.0
+margin_top = -68.0
+margin_right = 46.0
+margin_bottom = -14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "3"
+align = 1
+
+[node name="AtkText" type="Label" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0

@@ -15,11 +15,10 @@ func _process(_delta):
 		modulate = disabledColor
 
 
-func _on_Card_input_event(viewport, event, shape_idx):
+func _on_Card_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT and is_hover:
 		if cm.gm.is_card_usable:
-			cm.use_card(self)
-			queue_free()
+			cm.use_card()
 
 
 func _on_Card_mouse_entered():

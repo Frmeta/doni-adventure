@@ -29,14 +29,14 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ ExtResource( 1 ) ]
+"values": [ null ]
 }
 
 [sub_resource type="Animation" id=3]
 resource_name = "enemyTurn"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,7 +44,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -800, 64 ), Vector2( 280, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
+"values": [ Vector2( -800, 64 ), Vector2( 200, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:texture")
@@ -63,7 +63,7 @@ tracks/1/keys = {
 resource_name = "playerTurn"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,7 +71,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -800, 64 ), Vector2( 280, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
+"values": [ Vector2( -800, 64 ), Vector2( 200, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:texture")
@@ -90,7 +90,7 @@ tracks/1/keys = {
 resource_name = "playerWin"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -98,7 +98,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -800, 64 ), Vector2( 280, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
+"values": [ Vector2( -800, 64 ), Vector2( 200, 64 ), Vector2( 280, 64 ), Vector2( 1400, 64 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:texture")
@@ -118,13 +118,12 @@ anchor_right = 0.578
 anchor_bottom = 0.55
 margin_left = 280.0
 margin_top = 64.0
-margin_right = 1938.39
-margin_bottom = 1094.0
-texture = ExtResource( 1 )
+margin_right = 2747.58
+margin_bottom = 1589.0
 script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "playerTurn"
+autoplay = "RESET"
 anims/RESET = SubResource( 1 )
 anims/enemyTurn = SubResource( 3 )
 anims/playerTurn = SubResource( 2 )

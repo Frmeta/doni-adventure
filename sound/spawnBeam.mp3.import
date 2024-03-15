@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/spawnBeam.mp3-db4de2aac42814cedea142a7a52d8256.mp3str"
+
+[deps]
+
+source_file="res://sound/spawnBeam.mp3"
+dest_files=[ "res://.import/spawnBeam.mp3-db4de2aac42814cedea142a7a52d8256.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

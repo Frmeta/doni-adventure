@@ -4,6 +4,8 @@ extends "res://script/entity.gd"
 signal get_card
 
 var beam: PackedScene = preload("res://prefab/Beam.tscn")
+var shieldHitPrefab := preload("res://prefab/ShieldHit.tscn")
+
 var isShield = false
 
 		
@@ -62,9 +64,11 @@ func tembus_attack(angle, isCosmic):
 	# attack animation
 	$AnimatedSprite.play("atk")
 	yield($AnimatedSprite, 'animation_finished')
+	gm.cam.shake()
 	$AnimatedSprite.play("atk2")
 	
 	# spawn beam
+	SoundManager.play("beam")
 	var b = gm.instantiate(beam)
 	b.rotation = angle
 	b.position = position
@@ -83,14 +87,22 @@ func tembus_attack(angle, isCosmic):
 	yield(get_tree().create_timer(1.0), "timeout")
 	
 func damage(amount):
+	SoundManager.play("playerHurt")
 	yield(VisualServer, 'frame_pre_draw')
 	if isShield:
+		var s = shieldHitPrefab.instance()
+		add_child(s)
+		s.position = Vector2()
 		off_shield()
 	else:
 		.damage(amount)
 
+
 func get_shield():
 	gm.heartIcon.play("shieldOn")
+	
+	if not isShield:
+		SoundManager.play("shield")
 	isShield = true
 	
 
@@ -98,9 +110,22 @@ func off_shield():
 	gm.heartIcon.play("shieldOff")
 	isShield = false
 
+func set_default_flip():
+	$AnimatedSprite.flip_h = true
+	
 func _update_flip(angle):
 	if angle < PI/2 and angle > -PI/2:
 		$AnimatedSprite.flip_h = true
 	else:
 		$AnimatedSprite.flip_h = false
-		
+
+func change_health(amount):
+	health += amount
+	if health > max_health:
+		gm.show_warning("you are already on full health")
+	health = clamp(health, 0, max_health)
+	healthText.text = str(health) + "/" + str(max_health)
+
+func change_max_health(amount):
+	.change_max_health(amount)
+	healthText.text = str(health) + "/" + str(max_health)

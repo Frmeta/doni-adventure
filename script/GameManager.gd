@@ -8,10 +8,19 @@ var playerPrefab := preload("res://prefab/player.tscn")
 var eyeballPrefab := preload("res://prefab/eyeball.tscn")
 var goblinPrefab := preload("res://prefab/goblin.tscn")
 var archerPrefab := preload("res://prefab/archer.tscn")
+var mochiPrefab := preload("res://prefab/mochi.tscn")
+var eggPrefab := preload("res://prefab/egg.tscn")
+var pekkaPrefab := preload("res://prefab/pekka.tscn")
+var hawkeyePrefab := preload("res://prefab/hawkeye.tscn")
+
+
 var cardItemPrefab := preload("res://prefab/cardItem.tscn")
 
 var kotakDecorPrefab := preload("res://prefab/kotakDecor.tscn")
 var playerDecorPrefab := preload("res://prefab/playerDecor.tscn")
+
+
+var enemyScript := preload("res://script/enemy.gd")
 
 
 onready var atkButton = $CanvasLayer/AttackButton
@@ -21,6 +30,15 @@ onready var heartIcon = $CanvasLayer/HeartIcon
 onready var cam = $Cam
 onready var levelText = $CanvasLayer/LevelImg/LevelText
 onready var transition = $CanvasLayer/Transition
+onready var retryButton = $"CanvasLayer/LoseScreen/Retry Button"
+onready var loseScreenAnimationPlayer := $CanvasLayer/LoseScreen/AnimationPlayer
+onready var warningAnim = $CanvasLayer/Warning/AnimationPlayer
+onready var warningText = $CanvasLayer/Warning/text
+
+onready var pauseScreen := $CanvasLayer/PauseScreen
+onready var continueButton := $CanvasLayer/PauseScreen/ContinueButton
+onready var mainMenuButton := $CanvasLayer/PauseScreen/MainMenuButton
+
 
 var spacing = 80
 
@@ -39,14 +57,22 @@ var is_card_usable = false
 
 
 var distance_to_next_level = 1100
-var current_level = 1
+export var current_level = 1
+var cardItemCount = 0
+
 
 func _ready():
 	# Setup reference
 	$CardManager.gm = self
 	level_start()
 	
+	# retry button
+	retryButton.connect("pressed", self, "go_to_scene", ["Level"])
 	
+	
+	# game music
+	SoundManager.play("bgMusic")
+
 
 func level_start():
 	
@@ -66,6 +92,7 @@ func level_start():
 	# Clear card item
 	for ci in get_tree().get_nodes_in_group("cardItem"):
 		ci.queue_free()
+	cardItemCount = 0
 	
 	# Setup kotak 5 x 11
 	for i in range(5):
@@ -90,44 +117,58 @@ func level_start():
 			instance.position = Vector2(j-5, i-2) * spacing + Vector2.RIGHT *2 * distance_to_next_level
 	
 	
+	var playerSpawnPos = Vector2(2, 2)
+	
 	# Spawn player
 	if is_instance_valid(player):
-		var spawnPos = Vector2(2, 2)
-		player.position = pos_to_position(spawnPos)
-		player.set_pos(spawnPos)
-		board[spawnPos.x][spawnPos.y] = player
+		player.position = pos_to_position(playerSpawnPos)
+		player.set_pos(playerSpawnPos)
+		board[playerSpawnPos.x][playerSpawnPos.y] = player
+		player.set_default_flip()
 	else:
-		player = spawn_entity(playerPrefab, Vector2(2, 2))
+		player = spawn_entity(playerPrefab, playerSpawnPos) 
 	
 		# init healthText
 		player.healthText = healthText
-		healthText.text = str(player.max_health)
+		player.change_health(0)
 	player.get_node("AnimatedSprite").play("idle")
 	
 	
+	
+	yield (get_tree().create_timer(1.0), "timeout")
+	
 	# Spawn enemies
-	var eyeball = spawn_entity(eyeballPrefab, Vector2(1, 9))
-	enemies.append(eyeball)
-	# eyeball = spawn_entity(archerPrefab, Vector2(3, 9))
-	# enemies.append(eyeball)
-	
-	
-	
-	# Spawn cardItem
-	for _i in range(5):
-		while (true):
+	var prefabs = generate_enemies()
+	for prefab in prefabs:
+		while true:
 			var a = randi() % 5 
 			var b = randi() % 11
-			if board[a][b] == null:
-				spawn_entity(cardItemPrefab, Vector2(a, b))
+			if board[a][b] == null and playerSpawnPos.distance_to(Vector2(a,b)) > 1.9:
+				spawn_entity(prefab, Vector2(a, b))
 				break
-	
 	
 	
 	atkButton.disabled = true
 	
+	yield(get_tree().create_timer(1.0), "timeout")
+	
 	# Game loop
 	while true:
+		
+		# Spawn card items
+		if cardItemCount <= 0:
+			var cardsPrefab = generate_cardItem()
+			for prefab in cardsPrefab:
+				while true:
+					var a = randi() % 5 
+					var b = randi() % 11
+					if board[a][b] == null:
+						cardItemCount += 1
+						spawn_entity(prefab, Vector2(a, b))
+						break
+						
+		
+			yield (get_tree().create_timer(1.0), "timeout")
 		
 		yield(transition.play(transition.TransitionStatus.PLAYER_TURN), "completed")
 
@@ -141,18 +182,24 @@ func level_start():
 
 		# move slowly
 		yield (move_entity(player, clickPos), "completed")
+		SoundManager.play("move")
 		yield(get_tree().create_timer(0.1), "timeout")
 		
 		# Player pick card
-		if $CardManager.cards.size() > 0:
-			atkButton.disabled = false
-			is_card_usable = true
-			get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
+		if $CardManager.cards.size() == 0:
+			show_warning("YOU HAVE NO CARDS LEFT, CLICK THE ATTACK BUTTON")
 			
-			yield(self, "attack_clicked_signal")
-			
-			atkButton.disabled = true
-			is_card_usable = false
+		atkButton.disabled = false
+		is_card_usable = true
+		get_tree().call_group("kotak", "set_type", Kotak.HighlightType.DISABLED)
+		
+		yield(self, "attack_clicked_signal")
+		SoundManager.play("atkButton")
+		
+		atkButton.disabled = true
+		is_card_usable = false
+		
+		
 		
 		if enemies.size() == 0:
 			break
@@ -170,32 +217,45 @@ func level_start():
 			
 			
 			
-		# Enemies' turn
+		# Enemy's turn
 		yield(transition.play(transition.TransitionStatus.ENEMY_TURN), "completed")
 		
-		for enemy in enemies:
-			
-			# Handle enemy stun
-			if enemy.isStun:
-				enemy.unstun()
-				continue
-			
-			# Enemy move
-			var targetPos = enemy.get_movement()[0]
-			yield(move_entity(enemy, targetPos), "completed")
-			
-			# Enemy attack
-			yield(enemy.attack_player(), "completed")
+		if is_instance_valid(player):
+			var enemies_tmp = enemies.duplicate()
+			for enemy in enemies_tmp:
+				
+				# Handle enemy stun
+				if enemy.isStun:
+					enemy.unstun()
+					continue
+				
+				# Enemy move
+				var targetPos = enemy.get_movement()[0]
+				yield(move_entity(enemy, targetPos), "completed")
+				if is_instance_valid(enemy): # handle egg
+					SoundManager.play("move")
+				
+				# Enemy attack
+				yield(enemy.attack_player(), "completed")
+				
+				
+		
+		
+		yield(get_tree().create_timer(0.5), "timeout")
 		
 		
 		# Losing
 		if not is_instance_valid(player) or player.health <= 0:
-			print("Player lose")
+			SoundManager.stop_all_sound()
+			SoundManager.play("gameOver")
+			loseScreenAnimationPlayer.play("show")
+			yield(get_tree().create_timer(3600), "timeout")
+			
 			
 	
+	SoundManager.play("levelClear")
 	yield(transition.play(transition.TransitionStatus.PLAYER_WIN), "completed")
 	
-	print("next level")
 	
 	# win animation
 	player.get_node("AnimatedSprite").play("win")
@@ -220,6 +280,69 @@ func level_start():
 	current_level += 1
 	level_start()
 
+func generate_enemies():
+	var prefabs = []
+	
+	var total = round(sqrt(current_level))
+	var kesusahan = pow(current_level, 2)/3/100
+	print(kesusahan)
+	
+	
+	# special level
+	if current_level >= 5:
+		if current_level % 5 == 1:
+			for _i in range(total*3):
+				prefabs.append(eggPrefab)
+			return prefabs
+		
+		
+	
+	randomize()
+	
+	
+	for _i in range(clamp(total, 1, 15)):
+		var acak = randf()
+		if current_level > 10 and acak < kesusahan/3:
+			# super hard enemy
+			acak = randi() % 2
+			match acak:
+				0:
+					prefabs.append(pekkaPrefab)
+				1:
+					prefabs.append(hawkeyePrefab)
+			
+		elif acak < kesusahan:
+			# hard enemy
+			
+			acak = randi() % 2
+			match acak:
+				0:
+					prefabs.append(goblinPrefab)
+				1:
+					prefabs.append(mochiPrefab)
+		else:
+			# easy enemy
+			
+			acak = randi() % 2
+			match acak:
+				0:
+					prefabs.append(archerPrefab)
+				1:
+					prefabs.append(eyeballPrefab)
+					
+		
+	return prefabs
+
+func generate_cardItem():
+	var prefabs = []
+	randomize()
+	
+	var cardItem = max(1, 5 - round(current_level/10))
+	for _i in range(cardItem):
+		prefabs.append(cardItemPrefab)
+	
+	return prefabs
+
 func entity_died(obj):
 	# remove at board
 	for i in range(5):
@@ -241,10 +364,13 @@ func entity_died(obj):
 
 func spawn_entity(prefab, pos):
 	
+	SoundManager.play("spawnBeam")
+	
 	# spawn particle
 	var p = instantiate(spawnParticlePrefab)
 	p.position = pos_to_position(pos)
 	p.get_node("AnimationPlayer").play("spawn")
+	
 	
 	# spawn object
 	var obj = instantiate(prefab)
@@ -253,6 +379,10 @@ func spawn_entity(prefab, pos):
 		obj.gm = self
 		obj.set_pos(pos)
 	board[pos.x][pos.y] = obj
+	
+	# append to enemies
+	if obj is enemyScript:
+		enemies.append(obj)
 	
 	return obj
 
@@ -280,6 +410,7 @@ func pos_to_position(pos):
 	return (Vector2(pos.y-5, pos.x-2)) * spacing
 
 func filter(list_of_pos, isPlayer):
+	isPlayer = true
 	var ans = []
 	list_of_pos = filter_inside_board(list_of_pos)
 	for o in list_of_pos:
@@ -294,3 +425,13 @@ func filter_inside_board(list_of_pos):
 		if o.x >= 0 and o.y >= 0 and o.x <= 4 and o.y <= 10:
 			ans.append(o)
 	return ans
+
+func go_to_scene(scene_name):
+	SoundManager.stop_all_sound()
+	get_tree().change_scene("res://scene/" + scene_name + ".tscn")
+
+
+func show_warning(warning_msg):
+	warningText.text = warning_msg
+	warningAnim.play("bum")
+

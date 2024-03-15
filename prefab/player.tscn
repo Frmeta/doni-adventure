@@ -64,7 +64,7 @@ animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 1 ) ],
 "loop": true,
 "name": "idle",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [ ExtResource( 27 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 28 ), ExtResource( 26 ), ExtResource( 32 ), ExtResource( 37 ), ExtResource( 38 ) ],
 "loop": false,
@@ -79,14 +79,15 @@ height = 35.0
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 8
 script = ExtResource( 2 )
+max_health = 10
 bullet = ExtResource( 22 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 3, -21 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 2 )
-animation = "win"
-frame = 8
+animation = "idle"
+frame = 1
 playing = true
 flip_h = true
 

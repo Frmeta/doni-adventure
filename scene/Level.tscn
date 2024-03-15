@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://sprite/atkButton/atkNormal.png" type="Texture" id=1]
 [ext_resource path="res://sprite/atkButton/atkHover.png" type="Texture" id=2]
@@ -15,6 +15,134 @@
 [ext_resource path="res://sprite/game/levelPaper.png" type="Texture" id=13]
 [ext_resource path="res://font/S_font.tres" type="DynamicFont" id=14]
 [ext_resource path="res://prefab/transition.tscn" type="PackedScene" id=15]
+[ext_resource path="res://sprite/game/button0002.png" type="Texture" id=16]
+[ext_resource path="res://prefab/PauseScreen.tscn" type="PackedScene" id=17]
+[ext_resource path="res://sprite/game/button0000.png" type="Texture" id=18]
+[ext_resource path="res://sprite/game/button0001.png" type="Texture" id=19]
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "bum"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 577, 442 )
@@ -26,7 +154,7 @@ script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HeartIco" type="TextureRect" parent="CanvasLayer"]
+[node name="HeartIcon2" type="TextureRect" parent="CanvasLayer"]
 visible = false
 margin_left = 19.0
 margin_top = 19.0
@@ -35,6 +163,8 @@ margin_bottom = 119.0
 texture = ExtResource( 10 )
 
 [node name="Transition" parent="CanvasLayer" instance=ExtResource( 15 )]
+margin_right = 59391.6
+margin_bottom = 36239.0
 
 [node name="HealthText" type="Label" parent="CanvasLayer"]
 margin_left = 113.0
@@ -67,10 +197,10 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.053
-margin_left = -252.0
-margin_top = -63.0
-margin_right = 248.0
-margin_bottom = 237.0
+margin_left = -254.0
+margin_top = -81.0
+margin_right = 246.0
+margin_bottom = 219.0
 mouse_filter = 2
 texture = ExtResource( 13 )
 
@@ -89,6 +219,85 @@ align = 1
 [node name="HeartIcon" parent="CanvasLayer" instance=ExtResource( 7 )]
 position = Vector2( 68, 74 )
 
+[node name="LoseScreen" type="Panel" parent="CanvasLayer"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.729412 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/LoseScreen"]
+anims/RESET = SubResource( 3 )
+anims/hide = SubResource( 2 )
+anims/show = SubResource( 4 )
+
+[node name="GAME OVER" type="Label" parent="CanvasLayer/LoseScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -236.0
+margin_top = -136.0
+margin_right = 231.0
+margin_bottom = -56.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "GAME OVER"
+
+[node name="Retry Button" type="TextureButton" parent="CanvasLayer/LoseScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -302.0
+margin_top = 60.0
+margin_right = 98.0
+margin_bottom = 260.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 19 )
+
+[node name="RETRY" type="Label" parent="CanvasLayer/LoseScreen/Retry Button"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -70.0
+margin_top = -22.0
+margin_right = 397.0
+margin_bottom = 58.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
+text = "retry"
+
+[node name="PauseScreen" parent="CanvasLayer" instance=ExtResource( 17 )]
+visible = false
+
+[node name="Warning" type="Panel" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_top = 0.93
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Warning"]
+autoplay = "RESET"
+anims/RESET = SubResource( 5 )
+anims/bum = SubResource( 6 )
+
+[node name="text" type="Label" parent="CanvasLayer/Warning"]
+anchor_top = 0.362
+anchor_right = 1.0
+anchor_bottom = 0.78
+margin_top = -18.0
+margin_bottom = 18.0
+custom_colors/font_color = Color( 0.894118, 0.894118, 0.894118, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "YOU HAVE REACHED THE MAXIMUM NUMBER OF CARDS"
+align = 1
+valign = 1
+
 [node name="PlayerAtkLine" parent="." instance=ExtResource( 8 )]
 visible = false
 
@@ -102,7 +311,6 @@ shape = SubResource( 1 )
 
 [node name="CardManager" parent="." instance=ExtResource( 9 )]
 position = Vector2( 0, 350 )
-cheatCard = 5
 
 [node name="CheatButton" type="Button" parent="."]
 margin_left = 406.0
@@ -111,24 +319,22 @@ margin_right = 469.0
 margin_bottom = -210.0
 text = "get card"
 
-[node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
+[node name="BG" type="Node2D" parent="."]
+modulate = Color( 0.94902, 0.94902, 0.94902, 1 )
 position = Vector2( 550, 194 )
 scale = Vector2( 1.6, 1.6 )
+
+[node name="Sprite" type="Sprite" parent="BG"]
 z_index = -10
 texture = ExtResource( 11 )
 
-[node name="Sprite2" type="Sprite" parent="."]
-modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
-position = Vector2( -550, 194 )
-scale = Vector2( 1.6, 1.6 )
+[node name="Sprite2" type="Sprite" parent="BG"]
+position = Vector2( -687.5, 0 )
 z_index = -10
 texture = ExtResource( 11 )
 
-[node name="Sprite3" type="Sprite" parent="."]
-modulate = Color( 0.427451, 0.427451, 0.427451, 1 )
-position = Vector2( 1650, 194 )
-scale = Vector2( 1.6, 1.6 )
+[node name="Sprite3" type="Sprite" parent="BG"]
+position = Vector2( 687.5, 0 )
 z_index = -10
 texture = ExtResource( 11 )
 

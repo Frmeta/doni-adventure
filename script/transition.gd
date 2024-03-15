@@ -7,6 +7,8 @@ func _ready():
 	pass
 
 func play(transitionStatus):
+	
+	SoundManager.play("turns")
 	match transitionStatus:
 		TransitionStatus.PLAYER_TURN:
 			$AnimationPlayer.play("playerTurn")

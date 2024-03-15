@@ -5,8 +5,9 @@ export var atk_damage := 2
 
 export var bullet : PackedScene
 
-onready var deathParticle = preload("res://prefab/deathParticle.tscn")
-onready var damageParticle = preload("res://prefab/DamageParticle.tscn")
+var deathParticle = preload("res://prefab/deathParticle.tscn")
+var damageParticle = preload("res://prefab/DamageParticle.tscn")
+var healPrefab := preload("res://prefab/Heal.tscn")
 
 var healthText
 
@@ -33,9 +34,9 @@ func set_pos(p):
 
 func damage(amount):
 	
+	gm.cam.shake()
 	# change health
-	health -= amount
-	healthText.text = str(health)
+	change_health(-amount)
 	
 	# spawn damage particle
 	var d = gm.instantiate(damageParticle)
@@ -49,6 +50,7 @@ func damage(amount):
 	if (not "isStun" in self) or not self.isStun:
 		$AnimatedSprite.play("hurt")
 		yield($AnimatedSprite, "animation_finished")
+	yield(VisualServer, "frame_pre_draw")
 	
 	# death
 	if health <= 0:
@@ -58,8 +60,32 @@ func damage(amount):
 		p.emitting = true
 		p.position = position
 		
-		
+		SoundManager.play("death")
 		gm.entity_died(self)
 		self.queue_free()
 	else:
 		$AnimatedSprite.play("idle")
+
+func change_health(amount):
+	health += amount
+	health = clamp(health, 0, max_health)
+	healthText.text = str(health)
+	
+func change_max_health(amount):
+	max_health += amount
+	
+func heal(amount):
+	change_health(amount)
+	
+	# spawn heal particle
+	var s = healPrefab.instance()
+	add_child(s)
+	s.position = Vector2()
+
+func ascend(amount):
+	change_max_health(amount)
+	
+	# spawn heal particle
+	var s = healPrefab.instance()
+	add_child(s)
+	s.position = Vector2()

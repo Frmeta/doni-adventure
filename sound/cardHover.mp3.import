@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/cardHover.mp3-2c5229e76ee82d73ea6e5d775f27d860.mp3str"
+
+[deps]
+
+source_file="res://sound/cardHover.mp3"
+dest_files=[ "res://.import/cardHover.mp3-2c5229e76ee82d73ea6e5d775f27d860.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
