@@ -24,7 +24,7 @@
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 7 ) ],
 "loop": false,
 "name": "atk",
 "speed": 10.0
@@ -62,7 +62,6 @@ position = Vector2( 4, -16 )
 scale = Vector2( 0.9, 0.9 )
 frames = SubResource( 4 )
 animation = "idle"
-frame = 6
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

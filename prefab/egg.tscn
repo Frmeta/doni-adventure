@@ -42,6 +42,7 @@ move_step = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -1, -4 )
+scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 4 )
 animation = "idle"
 playing = true

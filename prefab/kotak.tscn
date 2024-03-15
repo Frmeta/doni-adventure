@@ -21,7 +21,6 @@ extents = Vector2( 38, 38 )
 [node name="Kotak" type="Node2D" groups=["kotak"]]
 z_index = -1
 script = ExtResource( 2 )
-normalColor = Color( 0.952941, 0.952941, 0.952941, 1 )
 notClickableColor = Color( 0.686275, 0.686275, 0.686275, 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -33,6 +32,7 @@ texture = ExtResource( 1 )
 position = Vector2( 0, -10.2041 )
 z_as_relative = false
 frames = SubResource( 2 )
+frame = 2
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]

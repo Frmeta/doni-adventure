@@ -163,8 +163,8 @@ margin_bottom = 119.0
 texture = ExtResource( 10 )
 
 [node name="Transition" parent="CanvasLayer" instance=ExtResource( 15 )]
-margin_right = 59391.6
-margin_bottom = 36239.0
+margin_right = 63437.6
+margin_bottom = 38714.0
 
 [node name="HealthText" type="Label" parent="CanvasLayer"]
 margin_left = 113.0
@@ -313,6 +313,7 @@ shape = SubResource( 1 )
 position = Vector2( 0, 350 )
 
 [node name="CheatButton" type="Button" parent="."]
+visible = false
 margin_left = 406.0
 margin_top = -230.0
 margin_right = 469.0
