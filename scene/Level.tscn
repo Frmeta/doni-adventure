@@ -163,8 +163,8 @@ margin_bottom = 119.0
 texture = ExtResource( 10 )
 
 [node name="Transition" parent="CanvasLayer" instance=ExtResource( 15 )]
-margin_right = 63437.6
-margin_bottom = 38714.0
+margin_right = 64246.8
+margin_bottom = 39209.0
 
 [node name="HealthText" type="Label" parent="CanvasLayer"]
 margin_left = 113.0
