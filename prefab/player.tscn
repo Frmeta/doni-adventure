@@ -108,7 +108,7 @@ bullet = ExtResource( 22 )
 modulate = Color( 0.211765, 0.211765, 0.211765, 1 )
 frames = SubResource( 3 )
 animation = "idle"
-frame = 2
+frame = 5
 playing = true
 
 [node name="Penanda Cheat2" type="AnimatedSprite" parent="."]
@@ -124,7 +124,7 @@ position = Vector2( 5, -28 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 4
+frame = 3
 playing = true
 flip_h = true
 

@@ -25,3 +25,5 @@ Tugas 2
 Polishing
 - Memberi efek bercahaya pada player apabila player berada dalam mode cheat
 - Memberi efek fade in dan fade out pada splash screen
+- Memberi fitur skip pada splash screen
+- Memberi CPUParticles2D untuk menghias langit
