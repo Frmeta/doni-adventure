@@ -40,6 +40,7 @@ config/icon="res://sprite/icon.png"
 [autoload]
 
 SoundManager="*res://prefab/SoundManager.tscn"
+CheatSingleton="*res://script/CheatSingleton.gd"
 
 [display]
 

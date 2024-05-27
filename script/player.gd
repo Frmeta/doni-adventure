@@ -8,6 +8,13 @@ var shieldHitPrefab := preload("res://prefab/ShieldHit.tscn")
 
 var isShield = false
 
+func _process(delta):
+	if CheatSingleton.is_cheating:
+		$"Penanda Cheat".visible = true
+		$"Penanda Cheat2".visible = true
+	else:
+		$"Penanda Cheat".visible = false
+		$"Penanda Cheat2".visible = false
 		
 
 func get_movement():
@@ -87,8 +94,13 @@ func tembus_attack(angle, isCosmic):
 	yield(get_tree().create_timer(1.0), "timeout")
 	
 func damage(amount):
-	SoundManager.play("playerHurt")
 	yield(VisualServer, 'frame_pre_draw')
+	
+	if CheatSingleton.is_cheating:
+		# Cheating
+		return
+	
+	SoundManager.play("playerHurt")
 	if isShield:
 		var s = shieldHitPrefab.instance()
 		add_child(s)

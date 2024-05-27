@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://sprite/playerIdle/playerIdle0007.png" type="Texture" id=1]
 [ext_resource path="res://script/player.gd" type="Script" id=2]
@@ -38,6 +38,28 @@
 [ext_resource path="res://sprite/playerWin/playerWin0003.png" type="Texture" id=36]
 [ext_resource path="res://sprite/playerWin/playerWin0007.png" type="Texture" id=37]
 [ext_resource path="res://sprite/playerWin/playerWin0008.png" type="Texture" id=38]
+[ext_resource path="res://sprite/shine/shine0000.png" type="Texture" id=39]
+[ext_resource path="res://sprite/shine/shine0005.png" type="Texture" id=40]
+[ext_resource path="res://sprite/shine/shine0004.png" type="Texture" id=41]
+[ext_resource path="res://sprite/shine/shine0002.png" type="Texture" id=42]
+[ext_resource path="res://sprite/shine/shine0003.png" type="Texture" id=43]
+[ext_resource path="res://sprite/shine/shine0001.png" type="Texture" id=44]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 39 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 41 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 39 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 41 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "idle",
+"speed": 2.0
+} ]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -82,12 +104,26 @@ script = ExtResource( 2 )
 max_health = 10
 bullet = ExtResource( 22 )
 
+[node name="Penanda Cheat" type="AnimatedSprite" parent="."]
+modulate = Color( 0.211765, 0.211765, 0.211765, 1 )
+frames = SubResource( 3 )
+animation = "idle"
+frame = 2
+playing = true
+
+[node name="Penanda Cheat2" type="AnimatedSprite" parent="."]
+position = Vector2( -2, 0 )
+rotation = 0.73739
+frames = SubResource( 4 )
+animation = "idle"
+frame = 5
+playing = true
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 3, -21 )
+position = Vector2( 5, -28 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 2 )
 animation = "idle"
-frame = 1
 playing = true
 flip_h = true
 
