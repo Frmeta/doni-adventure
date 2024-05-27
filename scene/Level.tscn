@@ -149,7 +149,6 @@ extents = Vector2( 577, 442 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
-current_level = 10
 
 [node name="Cam" parent="." instance=ExtResource( 12 )]
 
