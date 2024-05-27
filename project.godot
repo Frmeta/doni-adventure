@@ -34,7 +34,6 @@ _global_script_class_icons={
 
 config/name="Doni's Adventure"
 run/main_scene="res://scene/Splash.tscn"
-boot_splash/bg_color=Color( 0.415686, 0.415686, 0.415686, 1 )
 config/icon="res://sprite/icon.png"
 
 [autoload]

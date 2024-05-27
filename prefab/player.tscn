@@ -116,7 +116,7 @@ position = Vector2( -2, 0 )
 rotation = 0.73739
 frames = SubResource( 4 )
 animation = "idle"
-frame = 5
+frame = 4
 playing = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -124,6 +124,7 @@ position = Vector2( 5, -28 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 2 )
 animation = "idle"
+frame = 4
 playing = true
 flip_h = true
 
