@@ -16,7 +16,7 @@ func _ready():
 
 # melee attack
 func attack_player():
-	if timer == 0:
+	if timer == 0 and health > 0:
 		$AnimatedSprite.play("break")
 	
 		yield($AnimatedSprite, "animation_finished")
@@ -29,7 +29,8 @@ func attack_player():
 	else:
 		timer -= 1
 		timerText.text = str(timer)
-		yield(VisualServer,"frame_pre_draw")
+	
+	yield(VisualServer,"frame_pre_draw")
 
 # directed movement
 func get_movement():

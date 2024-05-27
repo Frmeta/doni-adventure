@@ -304,8 +304,8 @@ func use_card():
 
 func _on_Button_pressed():
 	# cheat button
-	get_card()
-	# get_card_type(cheatCard)
+	#get_card()
+	get_card_type(cheatCard)
 	
 	# for enemy in gm.enemies:
 	#	enemy.damage(5)

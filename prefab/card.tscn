@@ -10,7 +10,7 @@ extents = Vector2( 88, 165 )
 [node name="Card" type="Area2D"]
 script = ExtResource( 2 )
 normalColor = Color( 1, 1, 1, 1 )
-disabledColor = Color( 0.305882, 0.305882, 0.305882, 1 )
+disabledColor = Color( 0.615686, 0.615686, 0.615686, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 39 )

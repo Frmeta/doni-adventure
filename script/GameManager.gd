@@ -223,20 +223,20 @@ func level_start():
 		if is_instance_valid(player):
 			var enemies_tmp = enemies.duplicate()
 			for enemy in enemies_tmp:
-				
-				# Handle enemy stun
-				if enemy.isStun:
-					enemy.unstun()
-					continue
-				
-				# Enemy move
-				var targetPos = enemy.get_movement()[0]
-				yield(move_entity(enemy, targetPos), "completed")
-				if is_instance_valid(enemy): # handle egg
-					SoundManager.play("move")
-				
-				# Enemy attack
-				yield(enemy.attack_player(), "completed")
+				if player.health > 0:
+					# Handle enemy stun
+					if enemy.isStun:
+						enemy.unstun()
+						continue
+					
+					# Enemy move
+					var targetPos = enemy.get_movement()[0]
+					yield(move_entity(enemy, targetPos), "completed")
+					if is_instance_valid(enemy): # handle egg
+						SoundManager.play("move")
+					
+					# Enemy attack
+					yield(enemy.attack_player(), "completed")
 				
 				
 		
